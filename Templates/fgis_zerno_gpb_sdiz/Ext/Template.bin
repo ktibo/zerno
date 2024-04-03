@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        elementFormDefault="qualified"
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb-sdiz/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb-sdiz/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:dict="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+        xmlns:org="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+        xmlns:common="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+        xmlns:gpb="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb/1.0.3"
+>
+
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+               schemaLocation="fgis-zerno-dictionary-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+               schemaLocation="fgis-zerno-organizations-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+               schemaLocation="fgis-zerno-common-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb/1.0.3"
+               schemaLocation="fgis-zerno-gpb-1.0.3.xsd"/>
+
+    <xs:complexType name="CreateGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Сведения для формирования СДИЗ на партии переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element type="tns:OperationInRFType" name="OperationInRF">
+                    <xs:annotation>
+                        <xs:documentation>Осуществление операции на территории РФ</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="tns:OperationExportRFType" name="OperationExportRF">
+                    <xs:annotation>
+                        <xs:documentation>Осуществление операции вывоз с территории РФ</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="tns:OperationImportRFType" name="OperationImportRF">
+                    <xs:annotation>
+                        <xs:documentation>Осуществление операции ввоз на территорию РФ</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element type="common:DeclarationOfConformitType" name="DeclarationOfConformit" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Декларация соответствия</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element type="common:PhytosanitaryCertificateType" name="PhytosanitaryCertificate" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Может быть указан фитосанитарный сертификат, если цель использования у партии "Пищевая"</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="common:VeterinaryCertificateType" name="VeterinaryCertificate" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Может быть указан ветеринарный сертификат, если цель использования у партии "Кормовая"</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="gpbNumber" use="required"/>
+    </xs:complexType>
+
+    <xs:element type="tns:CreateGpbSDIZType" name="CreateGpbSDIZ"/>
+
+    <xs:complexType name="RecordGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Запись о сформированном СДИЗ на партии переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:CreateGpbSDIZType">
+                <xs:sequence>
+                    <xs:element type="org:SubjectType" name="Owner"/>
+                    <xs:element type="gpb:RecordGpbType" name="Gpb"/>
+                </xs:sequence>
+                <xs:attribute type="xs:integer" name="id" use="required"/>
+                <xs:attribute type="xs:string" name="number" use="required"/>
+                <xs:attribute type="tns:SDIZStatusType" name="status" use="required"/>
+                <xs:attribute type="xs:decimal" name="amountOriginal" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Масса партии продуктов формирования зерна при формировании СДИЗ </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute type="xs:date" name="dateRegistration" use="required"/>
+                <xs:attribute type="xs:dateTime" name="lastModified">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Время последнего изменения данных самой записи или связанных с ней  записей
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element type="tns:RecordGpbSDIZType" name="RecordGpbSDIZ"/>
+
+    <xs:complexType name="ListGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Список сформированных СДИЗ на партии переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:RecordGpbSDIZType" name="Record" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ListSDIZ" type="tns:ListGpbSDIZType"/>
+
+
+    <xs:complexType name="CanceledGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Аннулирование сведений о СДИЗ на партии переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbSDIZNumber" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CanceledGpbSDIZ" type="tns:CanceledGpbSDIZType"/>
+
+
+    <xs:complexType name="CreateGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Создание погашения СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="common:TransportInfoType" name="TransportInfo" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Информация о транспортных средствах указывается если в СДИЗ есть операция перевозка</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="dict:WeightDiscrepancyCauseCodeType" name="WeightDiscrepancyCause" minOccurs="0"/>
+            <xs:element type="xs:string" name="CauseComment" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="gpbSDIZNumber" use="required"/>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+        <xs:attribute type="xs:boolean" name="fullExtinction" use="required"/>
+    </xs:complexType>
+    <xs:element name="CreateGpbExtinction" type="tns:CreateGpbExtinctionType"/>
+
+
+    <xs:complexType name="RecordGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Сведения о погашении СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:CreateGpbExtinctionType">
+                <xs:attribute type="xs:integer" name="id" use="required"/>
+                <xs:attribute type="xs:string" name="createGpbNumber" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Номер партии созданный в результате погашения</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute type="common:StatusRecordType" name="status" use="required"/>
+                <xs:attribute type="xs:date" name="dateRegistration" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RecordGpbExtinction" type="tns:RecordGpbExtinctionType"/>
+
+
+    <xs:complexType name="ListGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Список о погашениях СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:RecordGpbExtinctionType" name="Record" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ListGpbExtinction" type="tns:ListGpbExtinctionType"/>
+
+
+    <xs:complexType name="CanceledGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Аннулирование сведений о погашении </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:integer" name="gpbExtinctionId" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CanceledGpbExtinction" type="tns:CanceledGpbExtinctionType"/>
+
+
+
+    <xs:complexType name="CreateGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Внесение сведений об отказе погашения партии по СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="dict:LotReturnReasonCodeType" name="GpbReturnReasonCode" minOccurs="0"/>
+            <xs:element type="xs:string" name="CauseComment" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="gpbSDIZNumber" use="required"/>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+    </xs:complexType>
+    <xs:element name="CreateGpbExtinctionRefusal" type="tns:CreateGpbExtinctionRefusalType"/>
+
+
+    <xs:complexType name="RecordGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Сведения об отказе погашения СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:CreateGpbExtinctionRefusalType">
+                <xs:attribute type="xs:integer" name="id" use="required"/>
+                <xs:attribute type="xs:string" name="createGpbNumber" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Номер партии созданный в результате отказа погашения погашения</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute type="common:StatusRecordType" name="status" use="required"/>
+                <xs:attribute type="xs:date" name="dateRegistration" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RecordGpbExtinctionRefusal" type="tns:RecordGpbExtinctionRefusalType"/>
+
+
+    <xs:complexType name="ListGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Список отказов погашений СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:RecordGpbExtinctionRefusalType" name="Record" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ListGpbExtinctionRefusal" type="tns:ListGpbExtinctionRefusalType"/>
+
+
+    <xs:complexType name="CanceledGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Аннулирование сведений об отказе погашения зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:integer" name="gpbExtinctionRefusalId" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CanceledGpbExtinctionRefusal" type="tns:CanceledGpbExtinctionRefusalType"/>
+
+
+
+    <!-- ================================================ -->
+    <!-- Библиотечные типы данных                         -->
+    <!-- ================================================ -->
+
+    <xs:complexType name="OperationInRFType">
+        <xs:annotation>
+            <xs:documentation>Доступные операции в СДИЗ на территории РФ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="common:OperationSDIZType" name="OperationSDIZ"  maxOccurs="4">
+                <xs:annotation>
+                    <xs:documentation>Указывается вид операции на территории РФ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:RealizationType" name="Realization" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Осуществление операции реализации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:ShippingType" name="Shipping" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Осуществление операции перевозки</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:AcceptanceType" name="Acceptance" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Осуществление операции приемке. Если есть операция перевозки, то элемент не указывается</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:ShipmentType" name="Shipment" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Осуществление операции отгрузки. Если есть операция перевозки, то элемент не указывается</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="common:DocOtherNumberDateType" name="OtherTransportDocument" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OperationExportRFType">
+        <xs:annotation>
+            <xs:documentation>Доступные операции в СДИЗ при экспорте</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="common:OperationSDIZType" name="OperationSDIZ"  maxOccurs="2">
+                <xs:annotation>
+                    <xs:documentation>Указывается вид операции при вывозе обязательно указание перевозки, операция отгрузки опциональна</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:ShippingType" name="Shipping" >
+                <xs:annotation>
+                    <xs:documentation>Осуществление операции перевозки</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:AdditionalInformationImportExportType" name="AdditionalInformationImportExport"/>
+            <xs:element type="common:DocOtherNumberDateType" name="OtherTransportDocument" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="OperationImportRFType">
+        <xs:annotation>
+            <xs:documentation>Доступные операции в СДИЗ при импорте</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="common:OperationSDIZType" name="OperationSDIZ"  maxOccurs="2">
+                <xs:annotation>
+                    <xs:documentation>Указывается вид операции при ввозе; обязательно указание перевозки, операция приемки опциональна</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:ShippingType" name="Shipping" >
+                <xs:annotation>
+                    <xs:documentation>Осуществление операции перевозки</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="tns:AdditionalInformationImportExportType" name="AdditionalInformationImportExport"/>
+            <xs:element type="common:DocOtherNumberDateType" name="OtherTransportDocument" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="ShippingType">
+        <xs:annotation>
+            <xs:documentation>Сведения при перевозка </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:SubjectType" name="Shipper"/>
+            <xs:element type="org:AddressRFType" name="ShipperAddress"/>
+            <xs:element type="org:SubjectType" name="Consignee"/>
+            <xs:element type="org:AddressRFType" name="ConsigneeAddress"/>
+            <xs:element type="tns:CarrierBlockType" name="CarrierBlock"  maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AcceptanceType">
+        <xs:annotation>
+            <xs:documentation>Сведения при приемке</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:SubjectType" name="Consignee"/>
+            <xs:element type="org:AddressRFType" name="ConsigneeAddress"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ShipmentType">
+        <xs:annotation>
+            <xs:documentation>Сведения при отгрузке</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:SubjectType" name="Shipper"/>
+            <xs:element type="org:AddressRFType" name="ShipperAddress"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RealizationType">
+        <xs:annotation>
+            <xs:documentation>Сведения при реализации</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:SubjectType" name="Seller"/>
+            <xs:element type="org:SubjectType" name="Buyer"/>
+            <xs:element type="common:DocNumberDateType" name="Contract"/>
+            <xs:element type="tns:ConfirmingDocumentType" name="ConfirmingDocument" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="tns:GovernmentPurchaseType" name="GovernmentPurchase" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AdditionalInformationImportExportType">
+        <xs:annotation>
+            <xs:documentation>Дополнительные сведения указываемые при импорте\экспорте</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:SubjectType" name="AccreditedLaboratory"/>
+            <xs:element type="common:DocNumberDateType" name="ContractVED"/>
+            <xs:element type="common:DocNumberDateType" name="AdditionalAgreement" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="customDeclaration"/>
+    </xs:complexType>
+
+
+    <xs:complexType name="CarrierBlockType">
+        <xs:annotation>
+            <xs:documentation>Информация о перевозчике</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:SubjectType" name="Carrier"/>
+            <xs:element type="org:AddressRFType" name="CarrierAddress" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="common:TransportInfoType" name="TransportInfo"  maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="GovernmentPurchaseType">
+        <xs:annotation>
+            <xs:documentation>Информация о государственной закупке</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="common:DocNumberDateType" name="GovernmentContract"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="numberGovernmentPurchase" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="SDIZStatusType">
+        <xs:annotation>
+            <xs:documentation>Статус партии</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SUBSCRIBED">
+                <xs:annotation>
+                    <xs:documentation>СДИЗ оформлен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CANCELED">
+                <xs:annotation>
+                    <xs:documentation>СДИЗ аннулирован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXTINGUISHED">
+                <xs:annotation>
+                    <xs:documentation>СДИЗ погашен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SUBSCRIBED_CONFIRMED">
+                <xs:annotation>
+                    <xs:documentation>СДИЗ оформлен и подтвержден</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ConfirmingDocumentType">
+        <xs:annotation>
+            <xs:documentation>Тип, дата и номер документа</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="common:DocNumberDateType">
+                <xs:sequence>
+                    <xs:element type="dict:PropertyRightTransferDocCodeType" name="KindDoc"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

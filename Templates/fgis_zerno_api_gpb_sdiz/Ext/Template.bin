@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        elementFormDefault="qualified"
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/gpb-sdiz/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/gpb-sdiz/1.0.3"
+        xmlns:gpbsdiz="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb-sdiz/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:common="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+        xmlns:dict="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+        xmlns:org="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+        xmlns:tp="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb-sdiz/1.0.3"
+               schemaLocation="fgis-zerno-gpb-sdiz-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+               schemaLocation="fgis-zerno-common-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+               schemaLocation="fgis-zerno-dictionary-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+               schemaLocation="fgis-zerno-organizations-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+               schemaLocation="fgis-zerno-api-types-1.0.3.xsd"/>
+
+    <!-- ================================================================== -->
+    <!-- Запрос на создание СДИЗ на партию переработки зерна                -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCreateGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Запрос на создание СДИЗ товаропроизводителем</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:CreateGpbSDIZType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на создании СДИЗ на партию переработки зерна                 -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCreateGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос создание СДИЗ товаропроизводителем</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:RecordGpbSDIZType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestCreateGpbSDIZ" type="tns:RequestCreateGpbSDIZType"/>
+    <xs:element name="ResponseCreateGpbSDIZ" type="tns:ResponseCreateGpbSDIZType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на получение списка СДИЗ на партию переработки зерна        -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestGetListGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Запрос на получение списка СДИЗ, оформленных товаропроизводителем</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="dict:OKPD2CodeType" name="OKPD2" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>СДИЗ с указанным ОКПД2</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="org:SubjectType" name="Owner" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>СДИЗ оформленные указанной организацией</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Paging" type="tp:PagingType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Параметры постраничного предоставления (при больших объемах предоставляемых данных).
+                        Если элемент не указан, по-умолчанию будет сформирована выборка из 100 элементов
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:date" name="dateFrom" >
+            <xs:annotation>
+                <xs:documentation>СДИЗ сформированные позднее указанные даты</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:date" name="dateTo" >
+            <xs:annotation>
+                <xs:documentation>СДИЗ сформированные ранее указанные даты</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="gpbNumber" >
+            <xs:annotation>
+                <xs:documentation>СДИЗ с указанным номером партии</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="gpbSdizNumber" >
+            <xs:annotation>
+                <xs:documentation>СДИЗ с указанным номером</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:integer" name="gpbSdizID" >
+            <xs:annotation>
+                <xs:documentation>СДИЗ с указанным идентификатором</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="gpbsdiz:SDIZStatusType" name="status" >
+            <xs:annotation>
+                <xs:documentation>СДИЗ с указанным статусом</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="common:KindSDIZType" name="kindSDIZ" >
+            <xs:annotation>
+                <xs:documentation>Вид СДИЗа для организации пользователя исходящий (оформленный организацией)
+                    входящий (оформленный не организацией пользователя)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:dateTime" name="recordsModifiedFrom" >
+            <xs:annotation>
+                <xs:documentation>Возвращает документы, по которым были изменения начиная с указанного времени.
+                    При указания фильтра записи в ответе будут отсортированы по возрастанию по времени изменения
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на запрос получения списка СДИЗ на партию переработки зерна  -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseGetListGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос получение списка СДИЗ, оформленных товаропроизводителем</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:ListGpbSDIZType">
+                <xs:attribute name="hasMore" type="xs:boolean" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Признак конца выборки:
+                            false - достигнут конец выборки;
+                            true - после последнего предоставленного элемента в выборке имеются другие.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestGetListGpbSDIZ" type="tns:RequestGetListGpbSDIZType"/>
+    <xs:element name="ResponseGetListGpbSDIZ" type="tns:ResponseGetListGpbSDIZType"/>
+
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на аннулирование СДИЗ на партию переработки зерна           -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCanceledGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Запрос на аннулирование СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:CanceledGpbSDIZType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на запрос аннулирования СДИЗ на партию переработки зерна     -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCanceledGpbSDIZType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос аннулирования СДИЗ</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbSdizNumber" use="required"/>
+        <xs:attribute type="common:ResultOperationType" name="resultOperation" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="RequestCanceledGpbSDIZ" type="tns:RequestCanceledGpbSDIZType"/>
+    <xs:element name="ResponseCanceledGpbSDIZ" type="tns:ResponseCanceledGpbSDIZType"/>
+
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на создание погашения СДИЗ на партию переработки зерна      -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCreateGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Запрос на создание погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:CreateGpbExtinctionType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на создании погашения СДИЗ на партию переработки зерна       -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCreateGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос создания погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:RecordGpbExtinctionType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestCreateGpbExtinction" type="tns:RequestCreateGpbExtinctionType"/>
+    <xs:element name="ResponseCreateGpbExtinction" type="tns:ResponseCreateGpbExtinctionType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на получение списка погашений СДИЗ на партию переработки зерна -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestGetListGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Запрос на получение списка погашений СДИЗ       </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbSdizNumber" use="required"/>
+        <xs:attribute type="xs:date" name="dateFrom" />
+        <xs:attribute type="xs:date" name="dateTo" />
+        <xs:attribute type="common:StatusRecordType" name="status" />
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на получение списка погашения СДИЗ на партию переработки зерна    -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseGetListGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос на получение списка погашений СДИЗ       </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:ListGpbExtinctionType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestGetListGpbExtinction" type="tns:RequestGetListGpbExtinctionType"/>
+    <xs:element name="ResponseGetListGpbExtinction" type="tns:ResponseGetListGpbExtinctionType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на аннулирование погашения СДИЗ на партию переработки зерна-->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCanceledGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Запрос на аннулирование погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:CanceledGpbExtinctionType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на запрос аннулирования погашения СДИЗ на партию переработки зерна -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCanceledGpbExtinctionType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос аннулирования погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:integer" name="gpbExtinctionId" use="required"/>
+        <xs:attribute type="common:ResultOperationType" name="resultOperation" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="RequestCanceledGpbExtinction" type="tns:RequestCanceledGpbExtinctionType"/>
+    <xs:element name="ResponseCanceledGpbExtinction" type="tns:ResponseCanceledGpbExtinctionType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на создание отказа погашения СДИЗ на партию переработки зерна-->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCreateGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Запрос на создание отказа погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:CreateGpbExtinctionRefusalType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на создании отказа погашения СДИЗ на партию переработки зерна-->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCreateGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос создания отказа погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:RecordGpbExtinctionRefusalType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestCreateGpbExtinctionRefusal" type="tns:RequestCreateGpbExtinctionRefusalType"/>
+    <xs:element name="ResponseCreateGpbExtinctionRefusal" type="tns:ResponseCreateGpbExtinctionRefusalType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на получение списка отказов погашения СДИЗ на партию переработки зерна-->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestGetListGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Запрос на получение списка отказов погашений СДИЗ       </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbSdizNumber" use="required"/>
+        <xs:attribute type="xs:date" name="dateFrom" />
+        <xs:attribute type="xs:date" name="dateTo" />
+        <xs:attribute type="common:StatusRecordType" name="status" />
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на получение списка отказов погашения СДИЗ на партию переработки зерна -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseGetListGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос на получение списка отказов погашений СДИЗ       </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:ListGpbExtinctionRefusalType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestGetListGpbExtinctionRefusal" type="tns:RequestGetListGpbExtinctionRefusalType"/>
+    <xs:element name="ResponseGetListGpbExtinctionRefusal" type="tns:ResponseGetListGpbExtinctionRefusalType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на аннулирование отказа погашения СДИЗ на партию переработки зерна -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCanceledGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Запрос на аннулирование отказа погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpbsdiz:CanceledGpbExtinctionRefusalType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на запрос аннулирования отказа погашения СДИЗ на партию переработки зерна -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCanceledGpbExtinctionRefusalType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос аннулирования отказа погашения СДИЗ    </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:integer" name="gpbExtinctionRefusalId" use="required"/>
+        <xs:attribute type="common:ResultOperationType" name="resultOperation" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="RequestCanceledGpbExtinctionRefusal" type="tns:RequestCanceledGpbExtinctionRefusalType"/>
+    <xs:element name="ResponseCanceledGpbExtinctionRefusal" type="tns:ResponseCanceledGpbExtinctionRefusalType"/>
+
+
+</xs:schema>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        elementFormDefault="qualified"
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:common="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+        xmlns:dict="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+        xmlns:org="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+        xmlns:lots="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/lots/1.0.3"
+>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+               schemaLocation="fgis-zerno-common-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+               schemaLocation="fgis-zerno-dictionary-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+               schemaLocation="fgis-zerno-organizations-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/lots/1.0.3"
+               schemaLocation="fgis-zerno-lots-1.0.3.xsd"/>
+
+
+    <xs:complexType name="CreateGpbType">
+        <xs:annotation>
+            <xs:documentation>Формирование партии продуктов переработки зерна владельцем</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element type="tns:CreateGpbFromAnotherType" name="GpbFromAnother">
+                    <xs:annotation>
+                        <xs:documentation>Формирование парии из других партий</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="tns:CreateGpbFromResiduesType" name="GpbFromResidues">
+                    <xs:annotation>
+                        <xs:documentation>Формирование парии из остатков</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="tns:CreateGpbFromInProductType" name="GpbFromInProduct">
+                    <xs:annotation>
+                        <xs:documentation>Формирование парии при производстве</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="tns:CreateGpbFromImportType" name="GpbFromImport">
+                    <xs:annotation>
+                        <xs:documentation>Формирование парии при ввозе</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="tns:CreateGpbFromPaperSDIZType" name="GpbFromPaperSDIZ">
+                    <xs:annotation>
+                        <xs:documentation>Формирование партии на основании СДИЗ на бумажном носителе</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+            <xs:element type="common:GrainProductType" name="Product"/>
+            <xs:element type="dict:LotsTargetCodeType" name="Target"/>
+            <xs:element type="dict:LotsPurposeCodeType" name="Purpose"/>
+            <xs:element type="org:AddressRFType" name="StoragePlace"/>
+            <xs:element type="org:SubjectType" name="Manufacturer"/>
+            <xs:element type="common:ListValueQualityIndicatorType" name="ListValueQualityIndicator"/>
+            <xs:element type="org:CountryType" name="CountryDestination" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Указывается для партий с назначением "Вывоз с территории РФ"</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:date" name="createDate" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CreateGpb" type="tns:CreateGpbType"/>
+
+    <xs:complexType name="RecordGpbType">
+        <xs:annotation>
+            <xs:documentation>Запись сведения о партии</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:CreateGpbType">
+                <xs:sequence>
+                    <xs:element type="org:SubjectType" name="Owner"/>
+                </xs:sequence>
+                <xs:attribute type="xs:integer" name="id" use="required"/>
+                <xs:attribute type="xs:string" name="number" use="required"/>
+                <xs:attribute type="tns:GpbStatusType" name="status" use="required"/>
+                <xs:attribute type="xs:decimal" name="amountOriginal" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Масса партии продуктов переработки зерна при формировании партии </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute type="xs:decimal" name="amountAvailable" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Доступная (не использованная) масса партии продуктов переработки зерна</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute type="xs:date" name="dateRegistration" use="required"/>
+                <xs:attribute type="xs:dateTime" name="lastModified">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Время последнего изменения данных самой записи или связанных с ней  записей
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RecordGpb" type="tns:RecordGpbType"/>
+
+    <xs:complexType name="ListGpbType">
+        <xs:annotation>
+            <xs:documentation>Список партий продуктов переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:RecordGpbType" name="Record" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ListGpb" type="tns:ListGpbType"/>
+
+
+    <xs:complexType name="CanceledGpbType">
+        <xs:annotation>
+            <xs:documentation>Аннулирование сведений о партии продуктов переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbNumber" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CanceledGpb" type="tns:CanceledGpbType"/>
+
+
+    <xs:complexType name="CreateGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Списание партии продуктов переработки зерна </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="dict:ReasonWriteOffCodeType" name="Reason"/>
+        </xs:sequence>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+        <xs:attribute type="xs:string" name="gpbNumber" use="required"/>
+        <xs:attribute type="xs:string" name="comment" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CreateGpbDebit" type="tns:CreateGpbDebitType"/>
+
+
+    <xs:complexType name="RecordGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Сведения о списание партии продуктов переработки зерна </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:CreateGpbDebitType">
+                <xs:attribute type="xs:integer" name="id" use="required"/>
+                <xs:attribute type="common:StatusRecordType" name="status" use="required"/>
+                <xs:attribute type="xs:date" name="dateRegistration" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RecordGpbDebit" type="tns:RecordGpbDebitType"/>
+
+
+    <xs:complexType name="ListGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Список списаний партий продуктов переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:RecordGpbDebitType" name="Record" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ListGpbDebit" type="tns:ListGpbDebitType"/>
+
+
+    <xs:complexType name="CanceledGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Аннулирование сведений о списании партии продуктов переработки зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:integer" name="gpbDebitId" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="CanceledGpbDebit" type="tns:CanceledGpbDebitType"/>
+
+
+    <!-- ================================================ -->
+    <!-- Библиотечные типы данных                         -->
+    <!-- ================================================ -->
+
+    <xs:complexType name="CreateGpbFromResiduesType">
+        <xs:annotation>
+            <xs:documentation>Создание партии продуктов переработки зерна из остатков</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="CreateGpbFromImportType">
+        <xs:annotation>
+            <xs:documentation>Сведения при создании партии продуктов переработки зерна при ввозе</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="org:AddressType" name="PlaceOfOrigin"/>
+        </xs:sequence>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="CreateGpbFromInProductType">
+        <xs:annotation>
+            <xs:documentation>Сведения для создания партии продуктов переработки зерна при производстве.
+                Должна быть указана хотя бы одна партия зерна или одна партия продуктов переработки зерна
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:ParentGpbType" minOccurs="0" maxOccurs="unbounded" name="ParentGpb"/>
+            <xs:element type="lots:ParentLotType" minOccurs="0" maxOccurs="unbounded" name="ParentLot"/>
+        </xs:sequence>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="CreateGpbFromPaperSDIZType">
+        <xs:annotation>
+            <xs:documentation>Сведения для формирования партии на основании СДИЗ на бумажном носителе</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:ParentGpbType"  maxOccurs="1" name="ParentGpb"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CreateGpbFromAnotherType">
+        <xs:annotation>
+            <xs:documentation>Сведения для создания партии продуктов переработки зерна из других партий</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:ParentGpbType"  maxOccurs="unbounded" name="ParentGpb"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ParentGpbType">
+        <xs:annotation>
+            <xs:documentation>Предшествующая партия</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbNumber" use="required"/>
+        <xs:attribute type="xs:decimal" name="amount" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="GpbKindType">
+        <xs:annotation>
+            <xs:documentation>Тип создания партии</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RESIDUES">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована при регистрации остатков</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ANOTHER_BATCH_GRAIN">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована из других партий</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXTINGUISH">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована при погашении.
+                        Партия источник как и у партии при формировании из других</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SDIZ">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована на основании СДИЗ на бумажном носителе</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PART">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована при возврате.
+                        Партия источник как и у партии при формировании из других</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="IMPORTED">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована при ввозе</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="IN_PRODUCT">
+                <xs:annotation>
+                    <xs:documentation>Партия сформирована при производстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="GpbStatusType">
+        <xs:annotation>
+            <xs:documentation>Статус партии</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SUBSCRIBED">
+                <xs:annotation>
+                    <xs:documentation>Сведения о партии подписаны</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CANCELED">
+                <xs:annotation>
+                    <xs:documentation>Сведения о партии аннулированы</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="BLOCKED">
+                <xs:annotation>
+                    <xs:documentation>Сведения о партии подписаны. Партия заблокирована, указана в СДИЗ </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="IN_ARCHIVE">
+                <xs:annotation>
+                    <xs:documentation>Сведения о партии подписаны. Партия полностью использована</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

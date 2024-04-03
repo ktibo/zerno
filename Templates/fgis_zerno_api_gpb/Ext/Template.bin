@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        elementFormDefault="qualified"
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/gpb/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/gpb/1.0.3"
+        xmlns:gpb="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:common="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+        xmlns:dict="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+        xmlns:org="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+        xmlns:tp="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/gpb/1.0.3"
+               schemaLocation="fgis-zerno-gpb-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+               schemaLocation="fgis-zerno-common-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+               schemaLocation="fgis-zerno-dictionary-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+               schemaLocation="fgis-zerno-organizations-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+               schemaLocation="fgis-zerno-api-types-1.0.3.xsd"/>
+
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на создание партии зерна товаропроизводителем               -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCreateGpbType">
+        <xs:annotation>
+            <xs:documentation>Запрос на создание партии зерна товаропроизводителем</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:CreateGpbType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на создании партии зерна товаропроизводителем                -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCreateGpbType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос создания партии зерна товаропроизводителем</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:RecordGpbType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestCreateGpb" type="tns:RequestCreateGpbType"/>
+    <xs:element name="ResponseCreateGpb" type="tns:ResponseCreateGpbType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на получение списка партий зерна                            -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestGetListGpbType">
+        <xs:annotation>
+            <xs:documentation>Запрос на получение списка партий зерна</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="dict:OKPD2CodeType" name="OKPD2" minOccurs="0"/>
+            <xs:element type="org:SubjectType" name="Owner" minOccurs="0"/>
+            <xs:element name="Paging" type="tp:PagingType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Параметры постраничного предоставления (при больших объемах предоставляемых данных).
+                        Если элемент не указан, по-умолчанию будет сформирована выборка из 100 элементов
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:date" name="dateFrom" />
+        <xs:attribute type="xs:date" name="dateTo" />
+        <xs:attribute type="xs:string" name="gpbNumber" />
+        <xs:attribute type="xs:integer" name="gpbID" />
+        <xs:attribute type="gpb:GpbStatusType" name="status" />
+        <xs:attribute type="xs:dateTime" name="recordsModifiedFrom" >
+            <xs:annotation>
+                <xs:documentation>Возвращает документы, по которым были изменения начиная с указанного времени.
+                    При указания фильтра записи в ответе будут отсортированы по возрастанию по времени изменения
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на получение списка партии зерна                             -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseGetListGpbType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос на получение списка партий зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:ListGpbType">
+                <xs:attribute name="hasMore" type="xs:boolean" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Признак конца выборки:
+                            false - достигнут конец выборки;
+                            true - после последнего предоставленного элемента в выборке имеются другие.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestGetListGpb" type="tns:RequestGetListGpbType"/>
+    <xs:element name="ResponseGetListGpb" type="tns:ResponseGetListGpbType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на аннулирование партии зерна                               -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCanceledGpbType">
+        <xs:annotation>
+            <xs:documentation>Запрос на аннулирование партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:CanceledGpbType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на запрос аннулирования партии зерна                         -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCanceledGpbType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос аннулирования партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbNumber" use="required"/>
+        <xs:attribute type="common:ResultOperationType" name="resultOperation" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="RequestCanceledGpb" type="tns:RequestCanceledGpbType"/>
+    <xs:element name="ResponseCanceledGpb" type="tns:ResponseCanceledGpbType"/>
+
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на создание списания партии зерна                           -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCreateGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Запрос на создание списания партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:CreateGpbDebitType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на создании списания партии зерна                            -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCreateGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос создания списания партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:RecordGpbDebitType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestCreateGpbDebit" type="tns:RequestCreateGpbDebitType"/>
+    <xs:element name="ResponseCreateGpbDebit" type="tns:ResponseCreateGpbDebitType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на получение списка списаний партии зерна                   -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestGetListGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Запрос на получение списка списаний партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="gpbNumber" use="required"/>
+        <xs:attribute type="xs:date" name="dateFrom" />
+        <xs:attribute type="xs:date" name="dateTo" />
+        <xs:attribute type="common:StatusRecordType" name="status" />
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на получение списка списаний партии зерна                             -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseGetListGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос на получение списка списаний партий зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:ListGpbDebitType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="RequestGetListGpbDebit" type="tns:RequestGetListGpbDebitType"/>
+    <xs:element name="ResponseGetListGpbDebit" type="tns:ResponseGetListGpbDebitType"/>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос на аннулирование списания партии зерна                      -->
+    <!-- ================================================================== -->
+    <xs:complexType name="RequestCanceledGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Запрос на аннулирование списания партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="gpb:CanceledGpbDebitType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ================================================================== -->
+    <!-- Ответ на запрос аннулирования списания партии зерна                -->
+    <!-- ================================================================== -->
+    <xs:complexType name="ResponseCanceledGpbDebitType">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос аннулирования списания партии зерна</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:integer" name="gpbDebitId" use="required"/>
+        <xs:attribute type="common:ResultOperationType" name="resultOperation" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="RequestCanceledGpbDebit" type="tns:RequestCanceledGpbDebitType"/>
+    <xs:element name="ResponseCanceledGpbDebit" type="tns:ResponseCanceledGpbDebitType"/>
+
+
+</xs:schema>

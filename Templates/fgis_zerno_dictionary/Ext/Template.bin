@@ -1,0 +1,1449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+    xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+    elementFormDefault="qualified"
+>
+    <xs:annotation>
+        <xs:documentation>Нормативно-справочная информация</xs:documentation>
+    </xs:annotation>
+
+    <!-- ==================================================================== -->
+    <!-- ОКПД2                                                                -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="OKPD2CodeType">
+        <xs:annotation>
+            <xs:documentation>Код ОКПД2</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="OKPD2Type">
+        <xs:annotation>
+            <xs:documentation>ОКПД2</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:OKPD2CodeType">
+            <xs:annotation>
+                <xs:documentation>Код ОКПД2</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="isGrain">
+            <xs:annotation>
+                <xs:documentation>Является зерном</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:boolean"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="isProduct">
+            <xs:annotation>
+                <xs:documentation>Является продуктом переработки зерна</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:boolean"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="OKPD2" type="tns:OKPD2Type"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Вид зернохранилища                                                   -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="GranaryType">
+        <xs:annotation>
+            <xs:documentation>Вид зернохранилища</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required">
+            <xs:annotation>
+                <xs:documentation>Код вида зернохранилища</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-100"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="GranaryKind" type="tns:GranaryType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Причины списания                                                     -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="ReasonWriteOffCodeType">
+        <xs:annotation>
+            <xs:documentation>Код причины списания</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="ReasonWriteOffType">
+        <xs:annotation>
+            <xs:documentation>Причины списания</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:ReasonWriteOffCodeType">
+            <xs:annotation>
+                <xs:documentation>Код причины списания</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="ReasonWriteOff" type="tns:ReasonWriteOffType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Вид отбора проб                                                      -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="ProbeCodeType">
+        <xs:annotation>
+            <xs:documentation>Код вида отбора проб</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="ProbeType">
+        <xs:annotation>
+            <xs:documentation>Вид отбора проб</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:ProbeCodeType">
+            <xs:annotation>
+                <xs:documentation>Код вида отбора проб</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="ProbeKind" type="tns:ProbeType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Способ хранения                                                      -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="StorageMethodType">
+        <xs:annotation>
+            <xs:documentation>Способ хранения</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required">
+            <xs:annotation>
+                <xs:documentation>Код способа хранения</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-100"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="StorageMethod" type="tns:StorageMethodType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Тип хранения                                                         -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="StorageType">
+        <xs:annotation>
+            <xs:documentation>Тип хранения</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required">
+            <xs:annotation>
+                <xs:documentation>Код типа хранения</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-100"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="StorageKind" type="tns:StorageType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Вид транспортных средств                                             -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="TransportCodeType">
+        <xs:annotation>
+            <xs:documentation>Код вида транспортных средств</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="TransportType">
+        <xs:annotation>
+            <xs:documentation>Вид транспортных средств</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:TransportCodeType">
+            <xs:annotation>
+                <xs:documentation>Код вида транспортных средств</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="TransportKind" type="tns:TransportType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Справочник единиц измерения                                          -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="UnitOfMeasureCodeType">
+        <xs:annotation>
+            <xs:documentation>Код единицы измерения</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="UnitOfMeasureType">
+        <xs:annotation>
+            <xs:documentation>Единицы измерения</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:UnitOfMeasureCodeType">
+            <xs:annotation>
+                <xs:documentation>Кодовое обозначение</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-500"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="symbol">
+            <xs:annotation>
+                <xs:documentation>Условное обозначение</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="UnitOfMeasure" type="tns:UnitOfMeasureType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Причины расхождения веса                                             -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="WeightDiscrepancyCauseCodeType">
+        <xs:annotation>
+            <xs:documentation>Код причины расхождения веса</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="WeightDiscrepancyCauseType">
+        <xs:annotation>
+            <xs:documentation>Причины расхождения веса</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:WeightDiscrepancyCauseCodeType">
+            <xs:annotation>
+                <xs:documentation>Код причины расхождения веса</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="WeightDiscrepancyCause" type="tns:WeightDiscrepancyCauseType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Вид документов                                                       -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="DocumentCodeType">
+        <xs:annotation>
+            <xs:documentation>Код вида документов</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="DocumentType">
+        <xs:annotation>
+            <xs:documentation>Вид документов</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:DocumentCodeType">
+            <xs:annotation>
+                <xs:documentation>Код вида документов</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-500"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="DocumentKind" type="tns:DocumentType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Тип услуги элеваторов                                                 -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="ElevatorServiceType">
+        <xs:annotation>
+            <xs:documentation>Тип услуги элеваторов</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required">
+            <xs:annotation>
+                <xs:documentation>Код типа услуги элеваторов</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-100"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="ElevatorService" type="tns:ElevatorServiceType"/>
+
+
+    <!-- ============================================================================================ -->
+    <!-- Назначение потребительского свойства партии зерна и (или) партии продуктов переработки зерна -->
+    <!-- ============================================================================================ -->
+    <xs:simpleType name="IndicatorPurposeCodeType">
+        <xs:annotation>
+            <xs:documentation>Код назначения потребительского свойства партии зерна и (или) партии продуктов переработки зерна</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="IndicatorPurposeType">
+        <xs:annotation>
+            <xs:documentation>Назначение потребительского свойства партии зерна и (или) партии продуктов переработки зерна</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:IndicatorPurposeCodeType">
+            <xs:annotation>
+                <xs:documentation>Код назначения потребительского свойства партии зерна и (или) партии продуктов переработки зерна</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="IndicatorPurpose" type="tns:IndicatorPurposeType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Документы на партию                                                  -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="LotDocumentCodeType">
+        <xs:annotation>
+            <xs:documentation>Код документа на партию</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="LotDocumentType">
+        <xs:annotation>
+            <xs:documentation>Документы на партию</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required"  type="tns:LotDocumentCodeType">
+            <xs:annotation>
+                <xs:documentation>Код документа на партию</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="LotDocument" type="tns:LotDocumentType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Причины возврата партии                                              -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="LotReturnReasonCodeType">
+        <xs:annotation>
+            <xs:documentation>Код причины возвратов партии</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="LotReturnReasonType">
+        <xs:annotation>
+            <xs:documentation>Причины возвратов партии</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:LotReturnReasonCodeType">
+            <xs:annotation>
+                <xs:documentation>Код причины возвратов партии</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="LotReturnReason" type="tns:LotReturnReasonType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Документы, подтверждающие переход права собственности                -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PropertyRightTransferDocCodeType">
+        <xs:annotation>
+            <xs:documentation>Код причины возвратов партии</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="PropertyRightTransferDocType">
+        <xs:annotation>
+            <xs:documentation>Документы, подтверждающие переход права собственности</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:PropertyRightTransferDocCodeType">
+            <xs:annotation>
+                <xs:documentation>Код документа</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="PropertyRightTransferDoc" type="tns:PropertyRightTransferDocType"/>
+
+
+    <!-- ======================================================================================== -->
+    <!-- Справочник показателей потребительских свойств зерна и (или) продуктов переработки зерна -->
+    <!-- ======================================================================================== -->
+    <xs:simpleType name="ValueTypesType">
+        <xs:annotation>
+            <xs:documentation>Тип значения</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NUMBER">
+                <xs:annotation>
+                    <xs:documentation>Число</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="BOOLEAN">
+                <xs:annotation>
+                    <xs:documentation>Boolean</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CHAR">
+                <xs:annotation>
+                    <xs:documentation>Текстовая строка</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ENUM">
+                <xs:annotation>
+                    <xs:documentation>Список значений</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="QualityIndicatorLimitType">
+        <xs:annotation>
+            <xs:documentation>Допустимые значения показателей качества</xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="Code" type="tns:QualityIndicatorCodeType">
+                <xs:annotation>
+                    <xs:documentation>Код потребительского свойства</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="OKPD2" type="tns:OKPD2CodeType">
+                <xs:annotation>
+                    <xs:documentation>Код ОКПД2</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Country" type="tns:CountryCodeType">
+                <xs:annotation>
+                    <xs:documentation>Код страны (альфа-2), по-умолчанию RU</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="IndicatorPurpose" type="tns:IndicatorPurposeCodeType">
+                <xs:annotation>
+                    <xs:documentation>Код назначения потребительского свойства партии зерна и (или) партии продуктов переработки зерна</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ValueType" type="tns:ValueTypesType">
+                <xs:annotation>
+                    <xs:documentation>Тип значения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element name="MinValue" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Нижняя граница диапазона допустимых значений</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="MaxValue" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Верхняя граница диапазона допустимых значений</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+
+                <xs:element name="BooleanValue" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Допустимое значение типа "Да/нет" и т.п., которые можно представить в виде Boolean</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="Values" type="tns:StringListType">
+                    <xs:annotation>
+                        <xs:documentation>Перечисление допустимых значений</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="Limit" type="tns:QualityIndicatorLimitType"/>
+
+
+    <xs:simpleType name="QualityIndicatorCodeType">
+        <xs:annotation>
+            <xs:documentation>Код потребительского свойства</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="QualityIndicatorType">
+        <xs:annotation>
+            <xs:documentation>
+                Показатели потребительских свойств зерна и (или) продуктов переработки зерна
+                в зависимости от вида зерновой культуры и назначения
+                потребительского свойства партии зерна и (или) партии продуктов переработки зерна
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:QualityIndicatorCodeType">
+            <xs:annotation>
+                <xs:documentation>Код потребительского свойства</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="unitOfMeasure" type="tns:UnitOfMeasureCodeType">
+            <xs:annotation>
+                <xs:documentation>Код единицы измерения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование потребительского свойства</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="QualityIndicator" type="tns:QualityIndicatorType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Способ переработки                                                   -->
+    <!-- ==================================================================== -->
+    <xs:complexType name="ProcessingMethodType">
+        <xs:annotation>
+            <xs:documentation>Способы переработки</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required">
+            <xs:annotation>
+                <xs:documentation>Код способа переработки</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="name" use="required">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="ProcessingMethod" type="tns:ProcessingMethodType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Сведения о собственности                                             -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="PropertyRightCodeType">
+        <xs:annotation>
+            <xs:documentation>Код сведений о собственности</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="PropertyRightType">
+        <xs:annotation>
+            <xs:documentation>Сведения о собственности</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:PropertyRightCodeType">
+            <xs:annotation>
+                <xs:documentation>Код сведений о собственности</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="PropertyRight" type="tns:PropertyRightType"/>
+
+
+    <!-- ==================================================================== -->
+    <!-- Назначение партии зерна                                              -->
+    <!-- ==================================================================== -->
+    <xs:simpleType name="LotsPurposeCodeType">
+        <xs:annotation>
+            <xs:documentation>Код назначения партии зерна</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="LotsPurposeType">
+        <xs:annotation>
+            <xs:documentation>Назначения партии зерна</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:LotsPurposeCodeType">
+            <xs:annotation>
+                <xs:documentation>Код назначения партии зерна</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name" use="required">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="LotsPurposeType" type="tns:LotsPurposeType"/>
+
+    <!-- ====================================================================== -->
+    <!-- Цель использования партии зерна или партии продуктов переработки зерна -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="LotsTargetCodeType">
+        <xs:annotation>
+            <xs:documentation>Код цели использования партии зерна</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="LotsTargetType">
+        <xs:annotation>
+            <xs:documentation>Цели использования партии зерна</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:LotsTargetCodeType">
+            <xs:annotation>
+                <xs:documentation>Код цели использования партии зерна</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="LotsTarget" type="tns:LotsTargetType"/>
+
+
+    <!-- ====================================================================== -->
+    <!-- Вид сельскохозяйственной культуры                                      -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="TNVEDCodeType">
+        <xs:annotation>
+            <xs:documentation>Код ТНВЭД</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="TNVEDType">
+        <xs:annotation>
+            <xs:documentation>Виды сельскохозяйственной культуры и продукта переработки зерна, подлежащей прослеживаемости по справочнику ТНВЭД</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="code" use="required" type="tns:TNVEDCodeType">
+            <xs:annotation>
+                <xs:documentation>Код ТН ВЭД</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="name">
+            <xs:annotation>
+                <xs:documentation>Наименование культуры зерна</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-500"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="TNVED" type="tns:TNVEDType"/>
+
+
+    <!-- =============================================================== -->
+    <!-- Виды сельскохозяйственной культуры и продукта переработки зерна -->
+    <!-- =============================================================== -->
+    <xs:complexType name="AgricultureType">
+        <xs:annotation>
+            <xs:documentation>Виды сельскохозяйственной культуры и продукта переработки зерна, подлежащей прослеживаемости</xs:documentation>
+        </xs:annotation>
+
+
+        <xs:attribute name="OKPD2Code" type="tns:OKPD2CodeType">
+            <xs:annotation>
+                <xs:documentation>Код ОКПД2</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="OKPD2Name">
+            <xs:annotation>
+                <xs:documentation>Наименование ОКПД2</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-200"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="TNVEDCode" use="required" type="tns:TNVEDCodeType">
+            <xs:annotation>
+                <xs:documentation>Код ТН ВЭД</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="TNVEDName">
+            <xs:annotation>
+                <xs:documentation>Наименование ТН ВЭД</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="tns:string-500"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="startDate">
+            <xs:annotation>
+                <xs:documentation>Действует с</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="endDate">
+            <xs:annotation>
+                <xs:documentation>Действует по</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime"/>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <xs:element name="Agriculture" type="tns:AgricultureType"/>
+
+
+    <!-- ====================================================================== -->
+    <!-- Страна                                                                 -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="CountryCodeType">
+        <xs:annotation>
+            <xs:documentation>Код страны</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ====================================================================== -->
+    <!-- Библиотечные типы данных                                               -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="string-500">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-200">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-100">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-50">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="StringListType">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="Item" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Список строковых значений</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="ItemListType">
+        <xs:sequence>
+            <xs:any namespace="##targetNamespace" maxOccurs="unbounded" processContents="skip">
+                <xs:annotation>
+                    <xs:documentation>Множество элементов справочника</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

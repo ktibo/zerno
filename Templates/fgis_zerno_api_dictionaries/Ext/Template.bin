@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    ФГИС "Зерно"
+    API. 
+    НСИ
+-->
+<xs:schema
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/dictionaries/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/dictionaries/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:dict="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+        xmlns:tp="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+        elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>Нормативно-справочная информация</xs:documentation>
+    </xs:annotation>
+
+
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+               schemaLocation="fgis-zerno-dictionary-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+               schemaLocation="fgis-zerno-api-types-1.0.3.xsd"/>
+
+    <!-- ================================================================== -->
+    <!-- Список поддерживаемых справочников                                 -->
+    <!-- ================================================================== -->
+    <xs:simpleType name="DictionaryType">
+        <xs:annotation>
+            <xs:documentation>Существующие справочники</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OKPD2">
+                <xs:annotation>
+                    <xs:documentation>ОКПД2: виды сельскохозяйственной культуры и продукта переработки зерна, подлежащей прослеживаемости по классификации ОКПД2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="TNVED">
+                <xs:annotation>
+                    <xs:documentation>ТНВЭД: виды сельскохозяйственной культуры и продукта переработки зерна, подлежащей прослеживаемости по классификации ТНВЭД</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="Agriculture">
+                <xs:annotation>
+                    <xs:documentation>Виды сельскохозяйственной культуры и продукта переработки зерна, подлежащей прослеживаемости</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="ReasonWriteOff">
+                <xs:annotation>
+                    <xs:documentation>Причины списания</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="Probe">
+                <xs:annotation>
+                    <xs:documentation>Вид отбора проб</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="Transport">
+                <xs:annotation>
+                    <xs:documentation>Вид транспортных средств</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="UnitOfMeasure">
+                <xs:annotation>
+                    <xs:documentation>Единицы измерения</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="WeightDiscrepancyCause">
+                <xs:annotation>
+                    <xs:documentation>Причины расхождения веса</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="Document">
+                <xs:annotation>
+                    <xs:documentation>Виды документов</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="IndicatorPurpose">
+                <xs:annotation>
+                    <xs:documentation>Назначение потребительского свойства партии зерна и (или) партии продуктов переработки зерна</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="LotDocument">
+                <xs:annotation>
+                    <xs:documentation>Документы на партию</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="LotReturnReason">
+                <xs:annotation>
+                    <xs:documentation>Причины возвратов партии</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="PropertyRightTransferDoc">
+                <xs:annotation>
+                    <xs:documentation>Документы, подтверждающих переход права собственности</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="QualityIndicator">
+                <xs:annotation>
+                    <xs:documentation>Показатели потребительских свойств зерна и (или) продуктов переработки зерна</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="QualityIndicatorLimit">
+                <xs:annotation>
+                    <xs:documentation>Граничные значения показателей потребительских свойств зерна и (или) продуктов переработки зерна</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="ProcessingMethod">
+                <xs:annotation>
+                    <xs:documentation>Способы переработки</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="PropertyRight">
+                <xs:annotation>
+                    <xs:documentation>Сведения о собственности</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="LotsPurpose">
+                <xs:annotation>
+                    <xs:documentation>Назначение партии зерна</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="LotsTarget">
+                <xs:annotation>
+                    <xs:documentation>Цели использования партии зерна</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="ElevatorService">
+                <xs:annotation>
+                    <xs:documentation>Тип услуги элеватора</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="Storage">
+                <xs:annotation>
+                    <xs:documentation>Тип хранения</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос                                                             -->
+    <!-- ================================================================== -->
+    <xs:complexType name="DictionaryRequestType">
+        <xs:sequence>
+            <xs:element name="Dictionary" type="tns:DictionaryType">
+                <xs:annotation>
+                    <xs:documentation>Наименование справочника</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="IsActual" type="xs:boolean" minOccurs="0" default="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        Если true, то только актуальные значения - те, которые действуют сейчас. 
+                        Если false - все значения, включая те, период действия которых закончился или ещё не начался. 
+                        Значение по-умолчанию: true
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Paging" type="tp:PagingType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Параметры постраничного предоставления (при больших объемах предоставляемых данных).
+                        Если элемент не указан, по-умолчанию будет сформирована выборка из 1000 элементов
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+        <xs:attribute name="lastModified" type="xs:dateTime">
+            <xs:annotation>
+                <xs:documentation>
+                    Параметр запроса данных появившихся в системе после указанного
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+
+    <!-- ================================================================== -->
+    <!-- Запрос к справочнику "Потребительские свойства"                    -->
+    <!-- ================================================================== -->
+    <xs:complexType name="QualityIndicatorRequestType">
+        <xs:complexContent>
+            <xs:extension base="tns:DictionaryRequestType">
+                <xs:sequence>
+                    <xs:element name="OKPD2" type="dict:OKPD2CodeType">
+                        <xs:annotation>
+                            <xs:documentation>Критерий поиска: код ОКПД2</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Country" type="dict:CountryCodeType">
+                        <xs:annotation>
+                            <xs:documentation>Критерий поиска: код страны</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="IndicatorPurpose" type="dict:IndicatorPurposeCodeType">
+                        <xs:annotation>
+                            <xs:documentation>Критерий поиска: код назначения использования</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="QualityIndicator" type="dict:QualityIndicatorCodeType">
+                        <xs:annotation>
+                            <xs:documentation>Критерий поиска: код показателя качества</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <!-- ================================================================== -->
+    <!-- Ответ                                                              -->
+    <!-- ================================================================== -->
+    <xs:complexType name="DictionaryResponseType">
+        <xs:sequence>
+            <xs:element name="Items" type="dict:ItemListType">
+                <xs:annotation>
+                    <xs:documentation>Данные справочника согласно схеме</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="hasMore" type="xs:boolean" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Признак конца выборки:
+                    false - достигнут конец выборки;
+                    true - после последнего предоставленного элемента в выборке имеются другие.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:element name="Request" type="tns:DictionaryRequestType"/>
+    <xs:element name="Response" type="tns:DictionaryResponseType"/>
+</xs:schema>

@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/organizations/1.0.3"
+        elementFormDefault="qualified">
+
+
+    <xs:complexType name="SubjectType">
+        <xs:annotation>
+            <xs:documentation>Организация, Индивидуальный Предприниматель или Аккредитованный филиал представительства иностранного юридического лица,
+                в отношении которых выполняются действия по изменению сведений в реестре организаций, осуществляющих
+                в качестве предпринимательской деятельности хранение зерна.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:choice>
+            <xs:element name="LegalEntity" type="tns:LegalEntityType">
+                <xs:annotation>
+                    <xs:documentation>Юридическое лицо</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="SoleProprietor" type="tns:SoleProprietorType">
+                <xs:annotation>
+                    <xs:documentation>Индивидуальный Предприниматель</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ForeignLegalEntity" type="tns:ForeignLegalEntityType">
+                <xs:annotation>
+                    <xs:documentation>Аккредитованный филиал представительства иностранного юр.лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ForeignEntity" type="tns:ForeignType">
+                <xs:annotation>
+                    <xs:documentation>Иностранное юридическое лицо без регистрации в РФ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+
+    <xs:complexType name="LegalEntityType">
+        <xs:annotation>
+            <xs:documentation>Юридическое лицо</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Name" type="tns:string-500">
+                <xs:annotation>
+                    <xs:documentation> Наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShortName" type="tns:string-500" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Краткое наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="INN" type="tns:LegalPersonINNType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>ИНН (Идентификационный Номер Налогоплательщика) юридического лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OGRN" type="tns:OGRNCompanyType">
+                <xs:annotation>
+                    <xs:documentation>ОГРН юридического лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="KPP" type="tns:KPPType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>КПП</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPF" type="tns:OPFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Организационно-правовая формы </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Address" type="tns:AddressRFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>>Юридический адрес</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PhoneNumber" type="tns:PhoneNumberRFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Контактный номер телефона</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailAddress" type="tns:EmailAddressType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Адрес электронной почты</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="SoleProprietorType">
+        <xs:annotation>
+            <xs:documentation>Индивидуальный предприниматель</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="FamilyName" type="tns:rus-100">
+                <xs:annotation>
+                    <xs:documentation>Фамилия</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" type="tns:rus-100">
+                <xs:annotation>
+                    <xs:documentation>Имя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Patronymic" type="tns:rus-100" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Отчество (при наличии)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="INN" type="tns:PhysicalPersonINNType">
+                <xs:annotation>
+                    <xs:documentation>ИНН (Идентификационный Номер Налогоплательщика) Индивидуального Предпринимателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OGRN" type="tns:OGRNSoleProprietorType">
+                <xs:annotation>
+                    <xs:documentation>ОГРН Индивидуального Предпринимателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Address" type="tns:AddressRFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Адрес Индивидуального Предпринимателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SNILS" type="tns:SNILSType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>СНИЛС Индивидуального Предпринимателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IdentityDocument" type="tns:IdentityDocumentType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Документ, удостоверяющий личность</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PhoneNumber" type="tns:PhoneNumberRFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Контактный номер телефона</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailAddress" type="tns:EmailAddressType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Адрес электронной почты</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- ================================================ -->
+    <!-- Страна                                           -->
+    <!-- ================================================ -->
+    <xs:complexType name="CountryType">
+        <xs:annotation>
+            <xs:documentation>Страна по ОКСМ</xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="alpha-3" type="tns:string-3">
+                <xs:annotation>
+                    <xs:documentation>Буквенный код альфа-3 согласно ОКСМ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ShortName" type="tns:string-500" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Краткое наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="ForeignLegalEntityType">
+        <xs:annotation>
+            <xs:documentation>Аккредитованный филиал представительства иностранного юр.лица</xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="Name" type="tns:string-500">
+                <xs:annotation>
+                    <xs:documentation>Наименование филиала или представительства иностранного юр.лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="INN" type="tns:LegalPersonINNType">
+                <xs:annotation>
+                    <xs:documentation>ИНН</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="KPP" type="tns:KPPType">
+                <xs:annotation>
+                    <xs:documentation>КПП</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RAFP" type="tns:RAFPType">
+                <xs:annotation>
+                    <xs:documentation>Регистрационный номер в РАФП</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Country" type="tns:CountryType">
+                <xs:annotation>
+                    <xs:documentation>Страна регистрации иностранного юр.лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Address" type="tns:AddressRFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>>Юридический адрес филиала или представительства на территории РФ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="ForeignType">
+        <xs:annotation>
+            <xs:documentation>Иностранное юридическое лицо без регистрации в РФ</xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="Name" type="tns:string-500">
+                <xs:annotation>
+                    <xs:documentation>Наименование иностранного юр.лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Country" type="tns:CountryType">
+                <xs:annotation>
+                    <xs:documentation>Страна регистрации иностранного юр.лица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Address" type="tns:AddressType">
+                <xs:annotation>
+                    <xs:documentation>Адрес иностранного юридического лица в стране регистрации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="IdentityDocumentType">
+        <xs:annotation>
+            <xs:documentation>Документ, удостоверяющий личность</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="PassportRF" type="tns:PassportRFType">
+                <xs:annotation>
+                    <xs:documentation>Паспорт РФ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="MilitaryPassport" type="tns:MilitaryPassportDocumentType">
+                <xs:annotation>
+                    <xs:documentation>Военный билет</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ForeignPassport" type="tns:NotRestrictedDocumentType">
+                <xs:annotation>
+                    <xs:documentation>Паспорт иностранного гражданина</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- ================================================ -->
+    <!-- Паспорт РФ                                       -->
+    <!-- ================================================ -->
+    <xs:complexType name="PassportRFType">
+        <xs:annotation>
+            <xs:documentation>Паспорт РФ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Series" type="tns:digits-4">
+                <xs:annotation>
+                    <xs:documentation>Серия</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Number" type="tns:digits-6">
+                <xs:annotation>
+                    <xs:documentation>Номер</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IssueDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата выдачи</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Issuer" type="tns:rus-and-num-200">
+                <xs:annotation>
+                    <xs:documentation>Кем выдан</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ================================================ -->
+    <!-- Военный билет                                    -->
+    <!-- ================================================ -->
+    <xs:complexType name="MilitaryPassportDocumentType">
+        <xs:annotation>
+            <xs:documentation>Военный билет</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Series">
+                <xs:annotation>
+                    <xs:documentation>Серия</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="2"/>
+                        <xs:pattern value="[А-Я]{2}"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Number" type="tns:digits-7">
+                <xs:annotation>
+                    <xs:documentation>Номер</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IssueDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата выдачи</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Issuer" type="tns:rus-and-num-200">
+                <xs:annotation>
+                    <xs:documentation>Кем выдан</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- ================================================ -->
+    <!-- Паспорт иностранного гражданина                  -->
+    <!-- ================================================ -->
+    <xs:complexType name="NotRestrictedDocumentType">
+        <xs:annotation>
+            <xs:documentation>Документ с нерегламентированными серией и номером</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Series" type="tns:string-20" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Серия</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Number">
+                <xs:annotation>
+                    <xs:documentation>Номер</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9а-яА-ЯA-Za-z]{1,25}"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="IssueDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата выдачи</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Issuer" type="tns:rus-and-num-200">
+                <xs:annotation>
+                    <xs:documentation>Кем выдан</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!--==========================================  РЕКВИЗИТЫ ЮРИДИЧЕСКИХ, ФИЗИЧЕСКИХ ЛИЦ И ИП  ===================-->
+
+    <xs:simpleType name="SNILSType">
+        <xs:annotation>
+            <xs:documentation>СНИЛС</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="11"/>
+            <xs:pattern value="\d{11}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PhysicalPersonINNType">
+        <xs:annotation>
+            <xs:documentation>ИНН физического лица</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="12"/>
+            <xs:pattern value="\d{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="OGRNSoleProprietorType">
+        <xs:annotation>
+            <xs:documentation>ОГРН индивидуального предпринимателя</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="15"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LegalPersonINNType">
+        <xs:annotation>
+            <xs:documentation>ИНН юридического лица</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="10"/>
+            <xs:pattern value="\d{10}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="OGRNCompanyType">
+        <xs:annotation>
+            <xs:documentation>ОГРН юридического лица</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="13"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="KPPType">
+        <xs:annotation>
+            <xs:documentation>КПП</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="9"/>
+            <xs:pattern value="\d{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="RAFPType">
+        <xs:annotation>
+            <xs:documentation>РАФП</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="11"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--==========================================  КОНТАКТЫ  =========================================================-->
+
+    <xs:simpleType name="PhoneNumberRFType">
+        <xs:annotation>
+            <xs:documentation>Номер телефона в РФ, в десятизначном формате</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+            <xs:pattern value="\d{10}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EmailAddressType">
+        <xs:annotation>
+            <xs:documentation>Адрес электронной почты</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+            <xs:pattern value="[0-9a-zA-Z_.\-]{2,50}[@]{1}[0-9a-zA-Z_./-]{2,50}[.]{1}[a-zA-Z]{2,5}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ================================================ -->
+    <!-- Адрес                                            -->
+    <!-- ================================================ -->
+    <xs:simpleType name="PostalCodeRFType">
+        <xs:annotation>
+            <xs:documentation>
+                Почтовый индекс, РФ.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="6"/>
+            <xs:pattern value="\d{6}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="AddressRFType">
+        <xs:annotation>
+            <xs:documentation>Адрес на территории Российской Федерации</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="PostalCode" type="tns:PostalCodeRFType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Почтовый индекс</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Address" type="tns:string-500">
+                <xs:annotation>
+                    <xs:documentation>Адрес</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="AddressType">
+        <xs:annotation>
+            <xs:documentation>Адрес за пределами территории Российской Федерации</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Address" type="tns:string-500">
+                <xs:annotation>
+                    <xs:documentation>Адрес в свободной форме</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- ================================================ -->
+    <!-- Организационно-правовая форма                    -->
+    <!-- ================================================ -->
+    <xs:simpleType name="OPFType">
+        <xs:annotation>
+            <xs:documentation>Код организационно-правовой формы в соответствии с классификатором ОКОПФ (Общероссийский классификатор организационно-правовых форм)</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="5"/>
+            <xs:pattern value="\d{5}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ====================================================================== -->
+    <!-- Библиотечные типы данных                                               -->
+    <!-- ====================================================================== -->
+    <xs:simpleType name="string-500">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-200">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-100">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-50">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-20">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-3">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="digits-4">
+        <xs:annotation>
+            <xs:documentation>Строка, состоящая из четырёх цифр. Например, серия паспорта РФ.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="4"/>
+            <xs:pattern value="\d{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="digits-6">
+        <xs:annotation>
+            <xs:documentation>Строка, состоящая из шести цифр. Например, номер паспорта РФ.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="6"/>
+            <xs:pattern value="\d{6}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="digits-7">
+        <xs:annotation>
+            <xs:documentation>Строка, состоящая из семи цифр. Например, номер загранпаспорта.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="7"/>
+            <xs:pattern value="\d{7}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="rus-100">
+        <xs:annotation>
+            <xs:documentation>Русский текст, длиной до 100 символов, цифры не допускаются.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+            <xs:pattern value="[а-яА-ЯёЁ\-\s,.]{1,100}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="rus-and-num-200">
+        <xs:annotation>
+            <xs:documentation>Русский текст, длиной до 200 символов.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+            <xs:pattern value="[а-яА-ЯёЁ\-\s,.0-9]{1,200}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        elementFormDefault="qualified"
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/common/1.0.3"
+        xmlns:dict="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+        xmlns:types="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+>
+
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/dictionary/1.0.3"
+               schemaLocation="fgis-zerno-dictionary-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+               schemaLocation="fgis-zerno-api-types-1.0.3.xsd"/>
+
+    <xs:simpleType name="StatusRecordType">
+        <xs:annotation>
+            <xs:documentation>Статус простых записей</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SUBSCRIBED">
+                <xs:annotation>
+                    <xs:documentation>Документ подписан</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CANCELED">
+                <xs:annotation>
+                    <xs:documentation>Документ аннулирован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ElevatorNumberType">
+        <xs:annotation>
+            <xs:documentation>Реестровый номер элеватора</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="number"/>
+    </xs:complexType>
+
+    <xs:complexType name="TransportInfoType">
+        <xs:annotation>
+            <xs:documentation>Информация о транспорте</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="dict:TransportCodeType" name="TransportCode"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="numberTransport"/>
+        <xs:attribute type="xs:string" name="numberContainer"/>
+    </xs:complexType>
+
+    <xs:simpleType name="ResultOperationType">
+        <xs:annotation>
+            <xs:documentation>Результат выполнения операции</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DONE">
+                <xs:annotation>
+                    <xs:documentation>Выполнено успешно</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NOT_DONE">
+                <xs:annotation>
+                    <xs:documentation>Не выполнена</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="DocNumberDateType">
+        <xs:annotation>
+            <xs:documentation>Дата и номер документа</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="number"/>
+        <xs:attribute type="xs:date" name="date"/>
+    </xs:complexType>
+
+    <xs:complexType name="DocOtherNumberDateType">
+        <xs:annotation>
+            <xs:documentation>Тип, дата и номер документа</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:DocNumberDateType">
+                <xs:sequence>
+                    <xs:element type="xs:string" name="KindDoc"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DeclarationOfConformitType">
+        <xs:annotation>
+            <xs:documentation>Декларация соответствия</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="number"/>
+        <xs:attribute type="xs:date" name="date"/>
+        <xs:attribute type="xs:date" name="dateEnd"/>
+    </xs:complexType>
+
+    <xs:complexType name="PhytosanitaryCertificateType">
+        <xs:annotation>
+            <xs:documentation>Фитосанитарный сертификат</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="number"/>
+        <xs:attribute type="xs:date" name="date"/>
+    </xs:complexType>
+
+    <xs:complexType name="VeterinaryCertificateType">
+        <xs:annotation>
+            <xs:documentation>Ветеринарный сертификат</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="tns:KindDocumentType" name="KindDoc" use="required"/>
+        <xs:attribute type="xs:date" name="date" use="required"/>
+        <xs:attribute type="xs:string" name="number"/>
+        <xs:attribute type="xs:string" name="series"/>
+        <xs:attribute type="types:UUID" name="uuid"/>
+    </xs:complexType>
+
+    <xs:simpleType name="KindDocumentType">
+        <xs:annotation>
+            <xs:documentation>Вид ветеринарного сертификата</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PAPER">
+                <xs:annotation>
+                    <xs:documentation>На бумажном носителе</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ELECTRONIC">
+                <xs:annotation>
+                    <xs:documentation>Электронный</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="KindSDIZType">
+        <xs:annotation>
+            <xs:documentation>Вид документа СДИЗ для организации</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OUTGOING">
+                <xs:annotation>
+                    <xs:documentation>Исходящий, оформленный организацией пользователя</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="INCOMING">
+                <xs:annotation>
+                    <xs:documentation>Входящий, оформленный не организацией пользователя</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ValueQualityIndicatorType">
+        <xs:annotation>
+            <xs:documentation>Значение потребительского свойства</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="qualityIndicatorCode" type="dict:QualityIndicatorCodeType" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Код потребительского свойства</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="ListValueQualityIndicatorType">
+        <xs:annotation>
+            <xs:documentation>Список значений потребительских свойств</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="tns:ValueQualityIndicatorType" name="Value" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GrainProductType">
+        <xs:annotation>
+            <xs:documentation>Вид с\х культуры или продукта переработки зерна.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="dict:OKPD2CodeType" name="OKPD2"/>
+            <xs:element type="dict:TNVEDCodeType" name="TNVED" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="OperationSDIZType">
+        <xs:annotation>
+            <xs:documentation>Статус простых записей</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ACCEPTANCE">
+                <xs:annotation>
+                    <xs:documentation>Приемка</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SHIPMENT">
+                <xs:annotation>
+                    <xs:documentation>Отгрузка</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SHIPPING">
+                <xs:annotation>
+                    <xs:documentation>Перевозка</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="REALIZATION">
+                <xs:annotation>
+                    <xs:documentation>Реализация</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

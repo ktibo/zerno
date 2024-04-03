@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    ФГИС "Зерно"
+    API. Базовые типы
+-->
+<xs:schema
+        targetNamespace="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+        xmlns:tns="urn://x-artefacts-mcx-gov-ru/fgiz-zerno/api/ws/types/1.0.3"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+>
+    <xs:annotation>
+        <xs:documentation>Базовые типы.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="PagingType">
+        <xs:annotation>
+            <xs:documentation>Параметры постраничного предоставления информации</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="pageNumber" use="required">
+            <xs:annotation>
+                <xs:documentation>Номер страницы предоставления информации
+                    Вся выборка по запросу разбивается на страницы размером pageLength.
+                    Отсчёт с 0 элемента.
+                    Последняя страница может быть меньше, чем pageLength.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:nonNegativeInteger"/>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="pageLength" use="required">
+            <xs:annotation>
+                <xs:documentation>Количество элементов на странице предоставления информации</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:nonNegativeInteger">
+                    <xs:minInclusive value="1"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- ========================================================== -->
+    <!-- Содержательная часть сообщения                             -->
+    <!-- ========================================================== -->
+    <xs:complexType name="MessagePrimaryContentType">
+        <xs:annotation>
+            <xs:documentation>Содержательная часть сообщения</xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:any namespace="##other" processContents="skip">
+                <xs:annotation>
+                    <xs:documentation>Корневой элемент XML-документа запроса</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="MessageDataType">
+        <xs:sequence>
+            <xs:element name="MessageID" type="tns:UUID">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор, присвоенный сообщению отправителем. Генерируется в соответствии с RFC-4122, по варианту 1 (на основании MAC-адреса и текущего времени).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="ReferenceMessageID" type="tns:UUID">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор сообщения-запроса, порождающего цепочку сообщений. При отправке подчиненных сообщений значение соответствует MessageID корневого сообщения цепочки сообщений.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="MessagePrimaryContent" type="tns:MessagePrimaryContentType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Содержательная часть сообщения, XML-документ.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="TestMessage" type="tns:Void" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Если этот элемент присутствует, то запрос - тестовый. </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+
+        <xs:attribute name="Id" type="xs:ID">
+            <xs:annotation>
+                <xs:documentation>Идентификатор элемента XML. Необходим для указания элемента, по содержимому которого создаётся ЭЦП</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="ResponseCodeType">
+        <xs:annotation>
+            <xs:documentation>Код возврата, детализирующий успешную обработку сообщения</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="success">
+                <xs:annotation>
+                    <xs:documentation>Запрос выполнен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="accepted">
+                <xs:annotation>
+                    <xs:documentation>Запрос принят в работу</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="queue-is-empty">
+                <xs:annotation>
+                    <xs:documentation>Запрос выполнен, но ответ не получен: очередь сообщений пуста</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="ignored">
+                <xs:annotation>
+                    <xs:documentation>Сообщение, получение которого подтверждается не найдено. Запрос игнорируется.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ========================================================== -->
+    <!-- SendRequestRequest + SendRequestResponse                   -->
+    <!-- ========================================================== -->
+    <xs:element name="SendRequestRequest">
+        <xs:annotation>
+            <xs:documentation>Параметры метода "Послать запрос"</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MessageData" type="tns:MessageDataType">
+                    <xs:annotation>
+                        <xs:documentation>Содержательная часть запроса</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="InformationSystemSignature" type="tns:XMLDSigSignatureType">
+                    <xs:annotation>
+                        <xs:documentation>ЭЦП</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="SendRequestResponse">
+        <xs:annotation>
+            <xs:documentation>Возвращаемое значение метода "Послать запрос"</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResponseCode" type="tns:ResponseCodeType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Результат обработки сообщения.
+                            Наличие кода возврата свидетельствует об успешной обработке запроса. В случае ошибки обработки запроса
+                            будет возникать исключительная ситуация и возвращаться сообщение типа FaultMessage. То есть, код возврата лишь детализирует
+                            успешный результат обработки запроса.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="MessageData" type="tns:MessageDataType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Содержательная часть ответа</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="InformationSystemSignature" type="tns:XMLDSigSignatureType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>ЭЦП</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- ========================================================== -->
+    <!-- SendResponseRequest + SendResponseResponse                 -->
+    <!-- ========================================================== -->
+    <xs:element name="SendResponseRequest">
+        <xs:annotation>
+            <xs:documentation>Параметр метода "Получить ответ на запрос"</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MessageData" type="tns:MessageDataType">
+                    <xs:annotation>
+                        <xs:documentation>Содержательная часть запроса</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="InformationSystemSignature" type="tns:XMLDSigSignatureType">
+                    <xs:annotation>
+                        <xs:documentation>ЭЦП</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="SendResponseResponse">
+        <xs:annotation>
+            <xs:documentation>Возвращаемое значение метода "Получить ответ на запрос"</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResponseCode" type="tns:ResponseCodeType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Результат обработки сообщения.
+                            Наличие кода возврата свидетельствует об успешной обработке запроса. В случае ошибки обработки запроса
+                            будет возникать исключительная ситуация и возвращаться сообщение типа FaultMessage. То есть, код возврата лишь детализирует
+                            успешный результат обработки запроса.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="MessageData" type="tns:MessageDataType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Содержательная часть ответа</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="InformationSystemSignature" type="tns:XMLDSigSignatureType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>ЭЦП</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- ========================================================== -->
+    <!-- AckRequest + AckResponse                                   -->
+    <!-- ========================================================== -->
+    <xs:element name="AckRequest">
+        <xs:annotation>
+            <xs:documentation>Параметры метода "Подтверждение получения сообщения".</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MessageData" type="tns:MessageDataType">
+                    <xs:annotation>
+                        <xs:documentation>Содержательная часть запроса</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="InformationSystemSignature" type="tns:XMLDSigSignatureType">
+                    <xs:annotation>
+                        <xs:documentation>ЭЦП</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="AckResponse">
+        <xs:annotation>
+            <xs:documentation>Возвращаемое значение метода "Подтверждение получения сообщения".</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResponseCode" type="tns:ResponseCodeType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Результат обработки сообщения.
+                            Наличие кода возврата свидетельствует об успешной обработке запроса. В случае ошибки обработки запроса
+                            будет возникать исключительная ситуация и возвращаться сообщение типа FaultMessage. То есть, код возврата лишь детализирует
+                            успешный результат обработки запроса.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
+                <xs:element name="InformationSystemSignature" type="tns:XMLDSigSignatureType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>ЭЦП</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- ========================================================== -->
+    <!-- Сведения о вложении                                        -->
+    <!-- ========================================================== -->
+    <xs:complexType name="AttachmentType">
+        <xs:annotation>
+            <xs:documentation>
+                Вложение. Файл, приложенный к сообщению. Имя файла не передаётся.
+                Вложение идентифицируются только идентификатором внутри сообщения.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:sequence>
+            <xs:element name="Id" type="xs:ID">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор вложения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="MimeType" type="tns:RFC2046MimeTypesType">
+                <xs:annotation>
+                    <xs:documentation>Тип контента</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Hash" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Хэш файла в формате BASE64</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- ========================================================== -->
+    <!-- Простые строковые типы                                     -->
+    <!-- ========================================================== -->
+    <xs:simpleType name="UUID">
+        <xs:annotation>
+            <xs:documentation>Строковое представление UUID</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-10">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-50">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-100">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-200">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-500">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-1500">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="string-4000">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="Void">
+        <xs:annotation>
+            <xs:documentation>Тип элемента, ценный фактом своего наличия.</xs:documentation>
+        </xs:annotation>
+    </xs:complexType>
+
+
+    <!-- ========================================================== -->
+    <!-- ЭЦП                                                        -->
+    <!-- ========================================================== -->
+    <xs:complexType name="XMLDSigSignatureType">
+        <xs:annotation>
+            <xs:documentation>Электронная подпись в формате XMLDSig</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:any namespace="http://www.w3.org/2000/09/xmldsig#" processContents="skip">
+                <xs:annotation>
+                    <xs:documentation>Подпись в соответствии со спецификацией XMLDSig.
+                        Объявлена как any для того, чтобы инструменты типа JAXB не генерировали классов для пространства имён http://www.w3.org/2000/09/xmldsig#.
+                        Это, в свою очередь, нужно потому, что инструменты, генерирующие и проверяющие ЭЦП (напр. Apache Santuario) работают
+                        с DOM-деревьями, а не с JAXB-объектами.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:simpleType name="RFC2046MimeTypesType">
+        <xs:annotation>
+            <xs:documentation>Тип вложения в формате RFC-2046</xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(text|image|audio|video|application)/[a-zA-Z\d\-+.]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
